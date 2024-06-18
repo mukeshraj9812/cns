@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diffie-Hellman Key Exchange</title>
+    <script>
+        function generateKeys() {
+            const g = parseInt(document.getElementById('base').value);
+            const p = parseInt(document.getElementById('modulus').value);
+            const alicePrivateKey = Math.floor(Math.random() * (p - 1)) + 1;
+            const bobPrivateKey = Math.floor(Math.random() * (p - 1)) + 1;
+            const alicePublicKey = modExp(g, alicePrivateKey, p);
+            const bobPublicKey = modExp(g, bobPrivateKey, p);
+            const aliceSharedSecret = modExp(bobPublicKey, alicePrivateKey, p);
+            const bobSharedSecret = modExp(alicePublicKey, bobPrivateKey, p);
+            document.getElementById('results').innerHTML = `
+                <h3>Alice</h3>
+                Private Key: ${alicePrivateKey}<br>
+                Public Key: ${alicePublicKey}<br>
+                Shared Secret: ${aliceSharedSecret}<br>
+                <h3>Bob</h3>
+                Private Key: ${bobPrivateKey}<br>
+                Public Key: ${bobPublicKey}<br>
+                Shared Secret: ${bobSharedSecret}`;
+        }
+
+        function modExp(base, exp, mod) {
+            let result = 1;
+            base = base % mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) result = (result * base) % mod;
+                exp = Math.floor(exp / 2);
+                base = (base * base) % mod;
+            }
+            return result;
+        }
+    </script>
+</head>
+<body>
+    <h1>Diffie-Hellman Key Exchange</h1>
+    <label for="base">Public Base (g): </label><input type="number" id="base" value="5"><br>
+    <label for="modulus">Public Modulus (p): </label><input type="number" id="modulus" value="23"><br>
+    <button onclick="generateKeys()">Generate Keys</button>
+    <div id="results"></div>
+</body>
+</html>

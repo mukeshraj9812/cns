@@ -1,4 +1,4 @@
-package lab.p2;
+
 public class PlayFairCipher {
 
     private char[][] keyTable;

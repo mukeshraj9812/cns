@@ -44,7 +44,7 @@ public class CeaserCipher {
     public static void main(String[] args) {
      
         CeaserCipher c = new CeaserCipher();
-        String ans = c.encode("dipankar");
+        String ans = c.encode("mukesh");
         System.out.println(ans);
 
         System.out.println(c.decode(ans));

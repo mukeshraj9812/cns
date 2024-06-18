@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void main() {
+int main() {
     unsigned int enc[3][3] = {{6, 24, 1}, {13, 16, 10}, {20, 17, 15}};
     unsigned int dec[3][3] = {{8, 5, 10}, {21, 8, 21}, {21, 12, 8}};
 
@@ -10,35 +10,43 @@ void main() {
     unsigned int res[3];
 
     char plaintext[20];
-    gets(plaintext);
+    printf("Enter plaintext (3 characters): ");
+    fgets(plaintext, sizeof(plaintext), stdin);
 
-    for(int i=0; i<3; i++) {
-        pt[i] = plaintext[i] - 'A';
+    // Ensure plaintext is at least 3 characters and uppercase
+    for(int i = 0; i < 3; i++) {
+        pt[i] = (plaintext[i] - 'A') % 26;
     }
 
-    // encryption: 
-    for(int i=0; i<3; i++) {
+    // Encryption:
+    for(int i = 0; i < 3; i++) {
         int sum = 0;
-        for(int j=0; j<3; j++) {
-            sum+= pt[j] * enc[i][j];
+        for(int j = 0; j < 3; j++) {
+            sum += pt[j] * enc[i][j];
         }
         ct[i] = sum % 26;
     }
 
-    for(int i=0; i<3; i++) {
-        printf("%c ", ct[i] + 'A');
+    printf("Ciphertext: ");
+    for(int i = 0; i < 3; i++) {
+        printf("%c", ct[i] + 'A');
     }
+    printf("\n");
 
-    // decryption:
-    for(int i=0; i<3; i++) {
+    // Decryption:
+    for(int i = 0; i < 3; i++) {
         int sum = 0;
-        for(int j=0; j<3; j++) {
-            sum+=  ct[j] * dec[i][j];
+        for(int j = 0; j < 3; j++) {
+            sum += ct[j] * dec[i][j];
         }
         res[i] = sum % 26;
     }
 
-    for(int i=0; i<3; i++) {
-        printf("%c ", res[i] + 'A');
+    printf("Decrypted text: ");
+    for(int i = 0; i < 3; i++) {
+        printf("%c", res[i] + 'A');
     }
+    printf("\n");
+
+    return 0;
 }
